@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Groups</title>
+        <style>
+            body{
+                display: flex;
+            }
+            div{
+                border: 1px solid black;
+                padding: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id='groups'>
+            <h1>Hi <%= current_user.first_name %> <%= current_user.last_name %></h1>
+            Here are the organizations you may join: <br>
+            ---------------------------------------- <br>
+            <% @groups.each do |group| %>
+                <% if group.user == current_user %>
+                    <form action='/groups/<%= group.id %>' method='post'>
+                        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+                        <input type='hidden' name='_method' value='delete'>
+                        <input type='submit' value='X'>
+                    </form>
+                <% end %>
+
+                <a href='/groups/<%= group.id %>'><%= group.name %></a> <br>
+                members: <%= group.users.count %> <br>
+                <%= group.description %> <br>
+                ---------------------------------------- <br>
+            <% end %>
+        </div>
+
+        <div id='create_group'>
+            Create a new organization:
+            <form action='/groups' method='post'>
+                <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+                Org Name: <input type='text' name='name'>
+                Description: <input type='text' name='description'>
+                <input type='submit' value='Create'>
+            </form>
+        </div>
+    </body>
+</html>

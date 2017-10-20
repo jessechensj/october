@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Group</title>
+    </head>
+
+    <body>
+        <a href='/groups'>Dashboard</a>
+        <h1><%= @group.name %></h1>
+
+        <% if current_user.joined_groups %>
+            <% joined = false %>
+            <% current_user.joined_groups.each do |group| %>
+                <% if group == @group %>
+                    <% joined = true %>
+                <% end %>
+            <% end %>
+            <% if joined %>
+                <form action='/members/<%= @group.id %>' method='post'>
+                    <input type='hidden' name='_method' value='delete'>
+                    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+                    <input type='submit' value='Leave Group'>
+                </from>
+            <% end %>
+            <% unless joined %>
+                <form action='/members' method='post'>
+                    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+                    <input type='hidden' name='group_id' value='<%= @group.id %>'>
+                    <input type='submit' value='Join Group'>
+                </from>
+            <% end %>
+        <% end %> <br>
+
+        <%= @group.description %> <br>
+
+        <h2>Created by: 
+            <% if @group.user == current_user %>
+                YOU
+            <% else %>
+                <%= @group.user.first_name %> <%= @group.user.last_name %>
+            <% end %>        
+        </h2>
+
+        Members: <br>
+        <% @members.each do |member| %>
+            <%= member.user.first_name %> <%= member.user.last_name %> <br>
+        <% end %>
+    </body>
+</html>
