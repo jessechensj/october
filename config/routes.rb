@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   delete '/groups/:id' => 'groups#destroy'
 
+  get '/eriklovesjews/itasha' => 'users#ita'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

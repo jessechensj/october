@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    skip_before_action :require_login, only: [:index, :create]
+    skip_before_action :require_login, only: [:index, :create, :ita]
     
     def index
     end
@@ -13,6 +13,10 @@ class UsersController < ApplicationController
         flash[:errors] = user.errors.full_messages
         redirect_to '/'
       end
+    end
+
+    def ita
+      render 'ita.html.erb'
     end
   end
   
